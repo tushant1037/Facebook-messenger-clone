@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
+import React,{Component} from 'react';
 import './App.css';
+import Header from './Components/header';
+import Body from './Components/body';
+import {totalData} from './Components/Api/index';
 
-function App() {
+class App extends Component {
+  state = 
+    {
+    totalConfirmed : '',
+    totalDeath : '',
+    totalRecovered : ''
+  }
+
+  componentDidMount = async() => {
+    await totalData().then(res => {
+      this.setState({
+        totalConfirmed : res.data.TotalConfirmed,
+        totalDeath : res.data.TotalDeaths,
+        totalRecovered : res.data.TotalRecovered   
+      })
+    })
+    .catch(err => {
+      console.log("error = ", err);
+    })
+  }
+
+
+  render() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+      <Header totalConfirmed={this.state.totalConfirmed} 
+              totalDeath={this.state.totalDeath} 
+              totalRecovered={this.state.totalRecovered}/>
+      </div>
+      <div>
+        <Body />
+      </div>
     </div>
   );
+  }
 }
 
 export default App;
