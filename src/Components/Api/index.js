@@ -19,3 +19,13 @@ export const topCountries = async() => {
 
     }
 }
+
+
+export const dailyConfirmed = async() => {
+    try {
+        const data = await axios.get('https://covid19.mathdro.id/api/daily/');
+        return data
+    } catch (error) {
+        
+    }
+}

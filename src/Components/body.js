@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import {topCountries} from './Api/index';
+import Graph from './graph.js'
 
 class Body extends Component {
     constructor(props) {
@@ -10,6 +11,7 @@ class Body extends Component {
             LStat : '',
             Country: [],
             countryName: [],
+            selectedCountry: ''
          }
          this.handleInputChange = this.handleInputChange.bind(this);
          this.handleSubmit = this.handleSubmit.bind(this);
@@ -18,7 +20,7 @@ class Body extends Component {
     componentDidMount = async() => {
         await topCountries().then(res => {
             const Todays = res.data.Global  
-            const today = new Date;
+            const today = new Date();
             const date = today.toLocaleDateString()
 
             const LatestStat = {
@@ -54,8 +56,8 @@ class Body extends Component {
     handleSubmit = event => {
         const query = this.state.query;
         event.preventDefault();
-        console.log(query)
         this.setState({
+            selectedCountry: query,
             query: ""
         })
     }
@@ -95,7 +97,7 @@ class Body extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-12 col-md-9 bg-warning">world</div>
+                    <div className="col-12 col-md-9 backgraph"><Graph selectedCountry={this.state.selectedCountry}/></div>
                 </div>
             </div>
          );
